@@ -16,12 +16,33 @@ public class MutableCar {
 	private int carSpeed;
 	private int carDirection;
 	
+	private int carSpeedY;
+	private int carDirectionY;
+	
 	public MutableCar(double xPos, double yPos, Color carColor, int speed, int direction) {
 		this.xPos = xPos;
 		this.yPos = yPos;
 		this.carColor = carColor;
 		this.carDirection = direction;
 		this.carSpeed = speed;
+		this.carDirectionY = 1;
+		this.carSpeedY = 40;
+	}
+
+	public int getCarSpeedY() {
+		return carSpeedY;
+	}
+
+	public void setCarSpeedY(int carSpeedY) {
+		this.carSpeedY = carSpeedY;
+	}
+
+	public int getCarDirectionY() {
+		return carDirectionY;
+	}
+
+	public void setCarDirectionY(int carDirectionY) {
+		this.carDirectionY = carDirectionY;
 	}
 
 	public MutableCar(double xPos, double yPos, Color carColor) {

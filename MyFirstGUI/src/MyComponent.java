@@ -16,20 +16,23 @@ public class MyComponent extends JComponent {
 	static MutableCar theCar = new MutableCar(0,0,Color.BLACK, 10, 1);
 	static Random genRand = new Random();
 
-	public boolean carCrashed(MutableCar c) {
-		if (c.getCarDirection() > 0) {
-			if (c.getxPos()+60 >= this.getWidth()) {
-				return true;
-			}
+	public boolean carBumped(MutableCar c) {
+		if(c.getCarDirection() > 0 && c.getxPos() + 60 >= this.getWidth() || c.getxPos() <= 0) {
+			return true;
 		}
-		else if (c.getCarDirection() < 0) {
-			if (c.getxPos() <= 0) {
-				return true;
-			}			
+		else {
+			return false;
 		}
 		
-		return false;
-		
+	}
+	
+	public boolean carReachedTopOrBottom(MutableCar c) {
+		if (c.getCarDirectionY() > 0) {
+			return (c.getyPos() + 30 > this.getHeight());
+		}
+		else {
+			return (c.getyPos() - 30 < 0);
+		}
 	}
 	
 	public void paintComponent(Graphics g) {		
@@ -37,9 +40,17 @@ public class MyComponent extends JComponent {
 		theCar.draw(g);
 		theCar.move(theCar.getCarSpeed()*theCar.getCarDirection(), 0);
 		
-		if (this.carCrashed(theCar)) {
+		int deltay = 0;
+		
+		if (this.carBumped(theCar)) {
 			theCar.setCarDirection(theCar.getCarDirection()*-1);
+			deltay = theCar.getCarDirectionY()*theCar.getCarSpeedY();
 		}
+		if (this.carReachedTopOrBottom(theCar)) {
+			theCar.setCarDirectionY(theCar.getCarDirectionY()*-1);
+		}
+		int deltax = theCar.getCarDirection()*theCar.getCarSpeed();
+		theCar.move(deltax, deltay);
 		
 //		//MutableCar car2 = new MutableCar(0,40, Color.BLUE);
 //		theCar.setPosition(0, 40);

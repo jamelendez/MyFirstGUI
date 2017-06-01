@@ -63,6 +63,15 @@ public class MutableCar {
 		this.yPos = this.yPos + deltay;
 	}
 	
+	public void setColor(Color c){
+		this.carColor = c;
+		
+	}
+	
+	public void getColor(Color c){
+		this.carColor = c;
+		
+	}
 	public int getCarSpeed() {
 		return carSpeed;
 	}
@@ -120,10 +129,10 @@ public class MutableCar {
 		g2.draw(rearWindow);
 		g2.draw(roof);
 		g2.draw(frontWindow);
-		g2.draw(body);
+		g2.fill(body);
 		g2.setColor(Color.BLACK);
-		g2.draw(rearTire);
-		g2.draw(frontTire);
+		g2.fill(rearTire);
+		g2.fill(frontTire);
 		
 		count++;
 		System.out.println("Car count " + count);

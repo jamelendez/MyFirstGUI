@@ -11,52 +11,53 @@ import javax.swing.JComponent;
 
 public class MyComponent extends JComponent {
 
-	static int counter = 0;
-	
-	static MutableCar theCar = new MutableCar(0,0,Color.BLACK, 10, 1);
-	static Random genRand = new Random();
+	private static int counter = 0;
 
+	private static MutableCar theCars[];
+
+
+	Random genRand = new Random();
+
+	public static final int LaneWidth = 40;
+	private static boolean someCarWon = false;
+
+	public boolean getSomeCarWon(){ return someCarWon;}
+
+	public MyComponent(int numCars) {
+		theCars = new MutableCar[numCars];
+		for(int i=0; i<numCars; i++){ int laneY = i*LaneWidth;
+		theCars[i] = new MutableCar(0,laneY, Color.DARK_GRAY, 10,1);
+		}
+	}
 	public boolean carBumped(MutableCar c) {
-		if(c.getCarDirection() > 0 && c.getxPos() + 60 >= this.getWidth() || c.getxPos() <= 0) {
-			return true;
-		}
-		else {
-			return false;
-		}
-		
-	}
-	
-	public boolean carReachedTopOrBottom(MutableCar c) {
-		if (c.getCarDirectionY() > 0) {
-			return (c.getyPos() + 30 > this.getHeight());
-		}
-		else {
-			return (c.getyPos() - 30 < 0);
-		}
-	}
-	
-	public void paintComponent(Graphics g) {		
-			
-		theCar.draw(g);
-		theCar.move(theCar.getCarSpeed()*theCar.getCarDirection(), 0);
-		
-		int deltay = 0;
-		
-		if (this.carBumped(theCar)) {
-			theCar.setCarDirection(theCar.getCarDirection()*-1);
-			deltay = theCar.getCarDirectionY()*theCar.getCarSpeedY();
-		}
-		if (this.carReachedTopOrBottom(theCar)) {
-			theCar.setCarDirectionY(theCar.getCarDirectionY()*-1);
-		}
-		int deltax = theCar.getCarDirection()*theCar.getCarSpeed();
-		theCar.move(deltax, deltay);
-		
-//		//MutableCar car2 = new MutableCar(0,40, Color.BLUE);
-//		theCar.setPosition(0, 40);
-//		theCar.draw(g);
-		
-		System.out.println("Painted " + counter++ + " times");
+		return ((c.getCarDirection() > 0) && (c.getxPos()+60 >= this.getWidth()) || (c.getxPos() <= 0));
 	}
 
+
+	public void paintComponent(Graphics g) {		
+
+
+		int iMax=0;
+		for(int i=0; i<theCars.length;i++){	
+			theCars[i].draw(g);
+			theCars[i].move(genRand.nextInt(20),0);
+			theCars[i].setColor(Color.RED);
+			
+			if (theCars[iMax].getxPos()<theCars[i].getxPos()){
+				iMax = i;
+			}
+			
+			if (this.carBumped(theCars[i]))
+			{
+				this.someCarWon = true;
+			}
+
+
+
+			theCars[iMax].setColor(Color.GREEN);
+			
+			System.out.println("Painted " + counter++ + " times");
+		}
+
+	}
 }
